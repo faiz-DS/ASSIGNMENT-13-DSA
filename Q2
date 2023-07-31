@@ -1,0 +1,59 @@
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+def remove_duplicates(head):
+    if not head or not head.next:
+        return head
+
+    current = head
+    while current.next:
+        if current.value == current.next.value:
+            current.next = current.next.next
+        else:
+            current = current.next
+
+    return head
+
+# Helper function to print the linked list
+def print_linked_list(head):
+    current = head
+    while current:
+        print(current.value, end="->")
+        current = current.next
+    print("None")
+
+# Test case 1
+head1 = Node(11)
+head1.next = Node(11)
+head1.next.next = Node(11)
+head1.next.next.next = Node(21)
+head1.next.next.next.next = Node(43)
+head1.next.next.next.next.next = Node(43)
+head1.next.next.next.next.next.next = Node(60)
+
+print("Input:")
+print_linked_list(head1)  # Output: 11->11->11->21->43->43->60->None
+
+new_head1 = remove_duplicates(head1)
+
+print("Output:")
+print_linked_list(new_head1)  # Output: 11->21->43->60->None
+
+# Test case 2
+head2 = Node(10)
+head2.next = Node(12)
+head2.next.next = Node(12)
+head2.next.next.next = Node(25)
+head2.next.next.next.next = Node(25)
+head2.next.next.next.next.next = Node(25)
+head2.next.next.next.next.next.next = Node(34)
+
+print("Input:")
+print_linked_list(head2)  # Output: 10->12->12->25->25->25->34->None
+
+new_head2 = remove_duplicates(head2)
+
+print("Output:")
+print_linked_list(new_head2)  # Output: 10->12->25->34->None

@@ -1,0 +1,53 @@
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+def delete_last_occurrence(head, key):
+    if not head:
+        return None
+
+    last_occurrence = None
+    prev_last_occurrence = None
+    current = head
+
+    while current:
+        if current.value == key:
+            last_occurrence = current
+            prev_last_occurrence = prev
+        prev = current
+        current = current.next
+
+    if last_occurrence:
+        # If the last occurrence is the head node, update the head
+        if last_occurrence == head:
+            head = head.next
+        else:
+            prev_last_occurrence.next = last_occurrence.next
+
+    return head
+
+# Helper function to print the linked list
+def print_linked_list(head):
+    current = head
+    while current:
+        print(current.value, end="->")
+        current = current.next
+    print("None")
+
+# Test case
+head = Node(1)
+head.next = Node(2)
+head.next.next = Node(3)
+head.next.next.next = Node(5)
+head.next.next.next.next = Node(2)
+head.next.next.next.next.next = Node(10)
+
+print("Input:")
+print_linked_list(head)  # Output: 1->2->3->5->2->10->None
+
+key = 2
+new_head = delete_last_occurrence(head, key)
+
+print("Output:")
+print_linked_list(new_head)  # Output: 1->2->3->5->10->None

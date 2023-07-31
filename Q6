@@ -1,0 +1,72 @@
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+def merge_sorted_lists(a, b):
+    # Create a dummy node as the new head of the merged list
+    dummy = Node(0)
+    current = dummy
+
+    while a and b:
+        if a.value <= b.value:
+            current.next = a
+            a = a.next
+        else:
+            current.next = b
+            b = b.next
+        current = current.next
+
+    # Append any remaining nodes from list a or b
+    if a:
+        current.next = a
+    if b:
+        current.next = b
+
+    return dummy.next
+
+# Helper function to print the linked list
+def print_linked_list(head):
+    current = head
+    while current:
+        print(current.value, end="->")
+        current = current.next
+    print("None")
+
+# Test case 1
+a = Node(5)
+a.next = Node(10)
+a.next.next = Node(15)
+
+b = Node(2)
+b.next = Node(3)
+b.next.next = Node(20)
+
+print("Input:")
+print("a:", end=" ")
+print_linked_list(a)  # Output: a: 5->10->15->None
+print("b:", end=" ")
+print_linked_list(b)  # Output: b: 2->3->20->None
+
+merged_head = merge_sorted_lists(a, b)
+
+print("Output:")
+print_linked_list(merged_head)  # Output: 2->3->5->10->15->20->None
+
+# Test case 2
+a = Node(1)
+a.next = Node(1)
+
+b = Node(2)
+b.next = Node(4)
+
+print("Input:")
+print("a:", end=" ")
+print_linked_list(a)  # Output: a: 1->1->None
+print("b:", end=" ")
+print_linked_list(b)  # Output: b: 2->4->None
+
+merged_head = merge_sorted_lists(a, b)
+
+print("Output:")
+print_linked_list(merged_head)  # Output: 1->1->2->4->None

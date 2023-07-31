@@ -1,0 +1,57 @@
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.prev = None
+        self.next = None
+
+def reverse_doubly_linked_list(head):
+    if not head or not head.next:
+        return head
+
+    current = head
+    while current:
+        # Swap prev and next pointers
+        temp = current.prev
+        current.prev = current.next
+        current.next = temp
+
+        # Move to the next node
+        current = current.prev
+
+    # Update head to point to the last node (new head after reversal)
+    head = temp.prev
+
+    return head
+
+# Helper function to print the doubly linked list forwards
+def print_linked_list_forward(head):
+    current = head
+    while current:
+        print(current.value, end="->")
+        current = current.next
+    print("None")
+
+# Helper function to print the doubly linked list backwards
+def print_linked_list_backward(tail):
+    current = tail
+    while current:
+        print(current.value, end="->")
+        current = current.prev
+    print("None")
+
+# Test case
+head = Node(10)
+head.next = Node(8)
+head.next.prev = head
+head.next.next = Node(4)
+head.next.next.prev = head.next
+head.next.next.next = Node(2)
+head.next.next.next.prev = head.next.next
+
+print("Original Linked list:")
+print_linked_list_forward(head)  # Output: 10->8->4->2->None
+
+new_head = reverse_doubly_linked_list(head)
+
+print("Reversed Linked list:")
+print_linked_list_backward(new_head)  # Output: 2->4->8->10->None

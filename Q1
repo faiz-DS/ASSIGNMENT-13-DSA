@@ -1,0 +1,75 @@
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+def create_new_linked_list(list1, list2):
+    if not list1 or not list2:
+        return None
+
+    # Helper function to add a new node to the output list
+    def add_node(new_list, value):
+        new_node = Node(value)
+        if not new_list:
+            new_list = new_node
+        else:
+            current = new_list
+            while current.next:
+                current = current.next
+            current.next = new_node
+        return new_list
+
+    # Initialize the head of the new linked list to None
+    new_list_head = None
+
+    # Traverse both input linked lists
+    current1, current2 = list1, list2
+    while current1 and current2:
+        # Compare values of the nodes at the same position in both lists
+        if current1.value >= current2.value:
+            new_list_head = add_node(new_list_head, current1.value)
+        else:
+            new_list_head = add_node(new_list_head, current2.value)
+
+        # Move to the next nodes in both lists
+        current1 = current1.next
+        current2 = current2.next
+
+    return new_list_head
+
+# Helper function to print the linked list
+def print_linked_list(head):
+    current = head
+    while current:
+        print(current.value, end="->")
+        current = current.next
+    print("None")
+
+# Test cases
+# Test case 1
+list1 = Node(5)
+list1.next = Node(2)
+list1.next.next = Node(3)
+list1.next.next.next = Node(8)
+
+list2 = Node(1)
+list2.next = Node(7)
+list2.next.next = Node(4)
+list2.next.next.next = Node(5)
+
+new_list = create_new_linked_list(list1, list2)
+print_linked_list(new_list)  # Output: 5->7->4->8->None
+
+# Test case 2
+list1 = Node(2)
+list1.next = Node(8)
+list1.next.next = Node(9)
+list1.next.next.next = Node(3)
+
+list2 = Node(5)
+list2.next = Node(3)
+list2.next.next = Node(6)
+list2.next.next.next = Node(4)
+
+new_list = create_new_linked_list(list1, list2)
+print_linked_list(new_list)  # Output: 5->8->9->4->None

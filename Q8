@@ -1,0 +1,73 @@
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.prev = None
+        self.next = None
+
+def delete_node_at_position(head, position):
+    if not head:
+        return None
+
+    current = head
+    count = 1
+
+    # Traverse to find the node at the given position
+    while current and count < position:
+        current = current.next
+        count += 1
+
+    if not current:  # Position exceeds the length of the list
+        return head
+
+    # Update prev and next pointers of the nodes before and after the node to be deleted
+    if current.prev:
+        current.prev.next = current.next
+    else:
+        head = current.next
+
+    if current.next:
+        current.next.prev = current.prev
+
+    return head
+
+# Helper function to print the doubly linked list forwards
+def print_linked_list_forward(head):
+    current = head
+    while current:
+        print(current.value, end=" <--> ")
+        current = current.next
+    print("None")
+
+# Test case 1
+head1 = Node(1)
+head1.next = Node(3)
+head1.next.prev = head1
+head1.next.next = Node(4)
+head1.next.next.prev = head1.next
+
+print("Input:")
+print_linked_list_forward(head1)  # Output: 1 <--> 3 <--> 4 <--> None
+
+position1 = 3
+new_head1 = delete_node_at_position(head1, position1)
+
+print("Output:")
+print_linked_list_forward(new_head1)  # Output: 1 <--> 3 <--> None
+
+# Test case 2
+head2 = Node(1)
+head2.next = Node(5)
+head2.next.prev = head2
+head2.next.next = Node(2)
+head2.next.next.prev = head2.next
+head2.next.next.next = Node(9)
+head2.next.next.next.prev = head2.next.next
+
+print("Input:")
+print_linked_list_forward(head2)  # Output: 1 <--> 5 <--> 2 <--> 9 <--> None
+
+position2 = 1
+new_head2 = delete_node_at_position(head2, position2)
+
+print("Output:")
+print_linked_list_forward(new_head2)  # Output: 5 <--> 2 <--> 9 <--> None

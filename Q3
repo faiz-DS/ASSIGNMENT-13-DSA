@@ -1,0 +1,71 @@
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+def reverse_k_nodes(head, k):
+    if not head or k <= 1:
+        return head
+
+    def reverse_sublist(sub_head, sub_k):
+        prev, current, next_node = None, sub_head, None
+        count = 0
+
+        while current and count < sub_k:
+            next_node = current.next
+            current.next = prev
+            prev = current
+            current = next_node
+            count += 1
+
+        if next_node:
+            sub_head.next = reverse_sublist(next_node, sub_k)
+
+        return prev
+
+    new_head = reverse_sublist(head, k)
+
+    return new_head
+
+# Helper function to print the linked list
+def print_linked_list(head):
+    current = head
+    while current:
+        print(current.value, end="->")
+        current = current.next
+    print("None")
+
+# Test case 1
+head1 = Node(1)
+head1.next = Node(2)
+head1.next.next = Node(2)
+head1.next.next.next = Node(4)
+head1.next.next.next.next = Node(5)
+head1.next.next.next.next.next = Node(6)
+head1.next.next.next.next.next.next = Node(7)
+head1.next.next.next.next.next.next.next = Node(8)
+
+print("Input:")
+print_linked_list(head1)  # Output: 1->2->2->4->5->6->7->8->None
+
+k1 = 4
+new_head1 = reverse_k_nodes(head1, k1)
+
+print("Output:")
+print_linked_list(new_head1)  # Output: 4->2->2->1->8->7->6->5->None
+
+# Test case 2
+head2 = Node(1)
+head2.next = Node(2)
+head2.next.next = Node(3)
+head2.next.next.next = Node(4)
+head2.next.next.next.next = Node(5)
+
+print("Input:")
+print_linked_list(head2)  # Output: 1->2->3->4->5->None
+
+k2 = 3
+new_head2 = reverse_k_nodes(head2, k2)
+
+print("Output:")
+print_linked_list(new_head2)  # Output: 3->2->1->5->4->None
